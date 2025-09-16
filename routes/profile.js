@@ -1,7 +1,7 @@
 // routes/profile.js
 import express from 'express';
 import authMiddleware from '../middleware/auth.js';
-import UserProfile from '../models/userProfile.js';
+import farmerProfile from '../models/farmerProfile.js';
 
 const router = express.Router();
 
@@ -10,7 +10,7 @@ const router = express.Router();
 // @access  Private
 router.get('/', authMiddleware, async (req, res) => {
   try {
-    const profile = await UserProfile.findOne({ userId: req.user.id }).populate('userId', 'username email');
+    const profile = await farmerProfile.findOne({ userId: req.user.id }).populate('userId', 'username email');
     if (!profile) {
       return res.status(404).json({ message: 'Profile not found' });
     }
@@ -34,10 +34,10 @@ router.post('/', authMiddleware, async (req, res) => {
   };
 
   try {
-    let profile = await UserProfile.findOne({ userId: req.user.id });
+    let profile = await farmerProfile.findOne({ userId: req.user.id });
     if (profile) {
       // Update existing profile
-      profile = await UserProfile.findOneAndUpdate(
+      profile = await farmerProfile.findOneAndUpdate(
         { userId: req.user.id },
         { $set: profileFields },
         { new: true }
@@ -45,7 +45,7 @@ router.post('/', authMiddleware, async (req, res) => {
       return res.json({ message: 'Profile updated successfully', profile });
     }
     // Create new profile
-    profile = new UserProfile(profileFields);
+    profile = new farmerProfile(profileFields);
     await profile.save();
     res.status(201).json({ message: 'Profile created successfully', profile });
   } catch (error) {
@@ -53,5 +53,36 @@ router.post('/', authMiddleware, async (req, res) => {
     res.status(500).send('Server Error');
   }
 });
+
+router.put('/', authMiddleware, async (req, res) => {
+  const { location, preferredCrop, farmSizeAcres } = req.body;
+
+  // Build the profileFields object with only the fields provided in the request body
+  const profileFields = {};
+  if (location) profileFields.location = location;
+  if (preferredCrop) profileFields.preferredCrop = preferredCrop;
+  if (farmSizeAcres) profileFields.farmSizeAcres = farmSizeAcres;
+
+  try {
+    let profile = await farmerProfile.findOne({ userId: req.user.id });
+
+    if (!profile) {
+      return res.status(404).json({ message: 'Profile not found' });
+    }
+
+    // Update the existing profile
+    profile = await farmerProfile.findOneAndUpdate(
+      { userId: req.user.id },
+      { $set: profileFields },
+      { new: true }
+    );
+
+    res.json({ message: 'Profile updated successfully', profile });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 
 export default router;

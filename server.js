@@ -2,6 +2,9 @@
 import express from 'express';
 import { connectDB } from './config/db.js';
 import authRoutes from './routes/auth.js';
+import chatRoutes from './routes/chat.js'
+import profileRoutes from './routes/profile.js'
+
 
 const app = express();
 const PORT = 3000;
