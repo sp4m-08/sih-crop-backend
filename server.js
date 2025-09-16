@@ -8,6 +8,7 @@ const PORT = 3000;
 
 // Init Middleware
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }))
 
 // Connect Database
 connectDB().then(() => {
