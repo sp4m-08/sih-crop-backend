@@ -1,7 +1,7 @@
 // routes/profile.js
 import express from 'express';
 import authMiddleware from '../middleware/auth.js';
-import farmerProfile from '../models/farmerProfile.js';
+import farmerProfile from '../models/FarmerProfile.js';
 
 const router = express.Router();
 

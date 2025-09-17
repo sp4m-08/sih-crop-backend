@@ -1,8 +1,8 @@
 import express from 'express';
 import axios from 'axios';
 import authMiddleware from '../middleware/auth.js';
-import Session from '../models/session.js'; // Use your Session model
-import Conversation from '../models/conversation.js'; // Use your Conversation model
+import Session from '../models/Session.js'; // Use your Session model
+import Conversation from '../models/Conversation.js'; // Use your Conversation model
 
 const router = express.Router();
 
