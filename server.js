@@ -4,6 +4,7 @@ import { connectDB } from './config/db.js';
 import authRoutes from './routes/auth.js';
 import chatRoutes from './routes/chat.js'
 import profileRoutes from './routes/profile.js'
+import cors from 'cors'
 
 
 const app = express();
