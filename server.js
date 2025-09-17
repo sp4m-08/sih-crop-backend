@@ -13,6 +13,10 @@ const PORT = 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
 
+app.use(cors({
+  origin: 'http://localhost:5173' // Allow only your frontend's origin
+}));
+
 // Connect Database
 connectDB().then(() => {
   console.log('Database connected');
