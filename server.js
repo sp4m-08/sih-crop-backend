@@ -15,7 +15,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
 
 app.use(cors({
-  origin: 'http://localhost:5173' // Allow only your frontend's origin
+  origin: ['http://localhost:5173', 'https://sih-crop-frontend-sigma.vercel.app']
 }));
 
 // Connect Database
